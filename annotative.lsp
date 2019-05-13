@@ -5,12 +5,6 @@
 
   (setvar 'cmdecho 0)
   
-  (setq insert 0)
-  (setq mtext 0)
-  (setq text 0)
-  (setq dimension 0)
-  (setq multileader 0)
-  (setq leader 0)
   
   (setq filter (list (cons -4 "<OR")
 		     (cons 0 "INSERT")
@@ -43,7 +37,7 @@
 	  ((= typ "MULTILEADER")	(anon_mleader) 	)
 	  ((= typ "LEADER")		(anon_change) 	)
 	  ((= typ "DIMENSION")		(anon_dims) 	)
-	  ((= typ "INSERT") 		(if (not(=(vla-get-effectivename vla-entity) "Target")) (progn (anon_change))))
+	  ((= typ "INSERT") 		(anon_change)   )
 	  )
     (setq index (+ 1 index))
     )
@@ -52,8 +46,6 @@
   (setvar 'cmdecho 1)
 
 
-  ;(setq msg (strcat "\n \nANNOTATIVE SCALE : " SCALE))
-  ;(alert msg)
  
   
   
@@ -130,16 +122,3 @@
     )
   )
 
-
-(defun c:anon1(/ ENTITY SCALE SCALEVALUE)
-  (command "._undo" "begin")
-  (setq entity (car(entsel)))
-  (setq scale (getvar "cannoscale"))
-  (setq scalevalue (getvar "cannoscalevalue"))
-  (setq dxf (entget entity))
-  (setq vla-entity (vlax-ename->vla-object entity))
-  (setq typ (cdr (assoc 0 dxf)))
-  (if (= typ "INSERT") (anon_change))
-  (command "._undo" "end")
-  (PRINC)
-  )
